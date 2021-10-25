@@ -32,4 +32,4 @@ oc  exec -it <primary-db-pod-name> -n <namespace> -- bash
 psql -c "select * from dpmtable;"
 ```
 
-This concludes the Install and testing of the Postgresql DB on OpenShift
+This concludes the Install and testing of the Postgresql DB on OpenShift 
