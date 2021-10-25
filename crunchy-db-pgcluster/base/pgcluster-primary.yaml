@@ -1,0 +1,45 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  namespace: team1
+  name: pg-db-primary
+  labels:
+    event: team19hackathon2021
+spec:
+  port: 5432
+  users:
+    - name: redhat
+  # standby:
+  #   enabled: true
+  #   repoName: repo1
+  proxy:
+    pgBouncer:
+      port: 5432
+      replicas: 1
+  backups:
+    pgbackrest:
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 1Gi
+  imagePullPolicy: Always
+  service:
+    type: ClusterIP
+  patroni:
+    leaderLeaseDurationSeconds: 30
+    port: 8008
+    syncPeriodSeconds: 10
+  instances:
+    - dataVolumeClaimSpec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+      replicas: 1
+  postgresVersion: 13

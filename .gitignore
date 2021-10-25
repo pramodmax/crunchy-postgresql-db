@@ -13,3 +13,10 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+kfdef/.cache/
+kfdef/kustomize/
+tests/kubeconfig
+tests/artifacts
+.idea
+*.iml
