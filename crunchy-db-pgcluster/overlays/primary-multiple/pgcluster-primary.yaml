@@ -5,4 +5,10 @@ metadata:
   name: pg-db-primary
 spec:
   instances:
-    - replicas: 2
+    - dataVolumeClaimSpec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+      replicas: 2

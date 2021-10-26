@@ -2,6 +2,8 @@
 This repo is used to create the Crunchy postgresql Database on OpenShift
 
 
+---
+---
 
 # Demo1 [Create Postgresql Cluster and test the active-active connection] steps
 
@@ -34,6 +36,8 @@ psql -c "select * from dpmtable;"
 
 This concludes the Install and testing of the Postgresql DB on OpenShift 
 
+---
+---
 
 # Demo2 [Connect to the DB [hackathon2021db] using the "redhat" user] steps
 
@@ -50,4 +54,15 @@ DB_HOST_URI=$(oc get secret  pg-db-primary-pguser-redhat -o json | jq '.data.uri
 DB_USER=$(oc get secret  pg-db-primary-pguser-redhat -o json | jq '.data.user' -r| base64 -d)
 DB_VERIFIER=$(oc get secret  pg-db-primary-pguser-redhat -o json | jq '.data.verifier' -r| base64 -d)
 ```
-Step2: 
+Step2: Port forward the application to your local
+oc get pods 
+NAME                                     READY   STATUS      RESTARTS   AGE
+pg-db-primary-00-k7qj-0                  3/3     Running     0          43m
+pg-db-primary-backup-rcwh-x8j4w          0/1     Completed   0          43m
+pg-db-primary-pgbouncer-d9b58546-t946f   2/2     Running     0          43m
+pg-db-primary-repo-host-0                1/1     Running     0          43m
+
+oc port-forward pg-db-primary-00-k7qj-0 $DB_PORT:$DB_PORT
+
+Step3: Run the DB client to connect to the server using the credentials
+
