@@ -34,6 +34,11 @@ oc  exec -it <primary-db-pod-name> -n <namespace> -- bash
 psql -c "select * from dpmtable;"
 ```
 
+Step5: To scale the cluster to 2 instances
+```
+oc apply -k crunchy-db-pgcluster/base
+```
+
 This concludes the Install and testing of the Postgresql DB on OpenShift 
 
 ---
@@ -55,6 +60,7 @@ DB_USER=$(oc get secret  pg-db-primary-pguser-redhat -o json | jq '.data.user' -
 DB_VERIFIER=$(oc get secret  pg-db-primary-pguser-redhat -o json | jq '.data.verifier' -r| base64 -d)
 ```
 Step2: Port forward the application to your local
+```
 oc get pods 
 NAME                                     READY   STATUS      RESTARTS   AGE
 pg-db-primary-00-k7qj-0                  3/3     Running     0          43m
@@ -62,7 +68,13 @@ pg-db-primary-backup-rcwh-x8j4w          0/1     Completed   0          43m
 pg-db-primary-pgbouncer-d9b58546-t946f   2/2     Running     0          43m
 pg-db-primary-repo-host-0                1/1     Running     0          43m
 
-oc port-forward pg-db-primary-00-k7qj-0 $DB_PORT:$DB_PORT
+oc port-forward pod/pg-db-primary-00-k7qj-0 $DB_PORT:$DB_PORT
+Forwarding from 127.0.0.1:5432 -> 5432
+Forwarding from [::1]:5432 -> 5432
+```
 
-Step3: Run the DB client to connect to the server using the credentials
+Step3: Run the DB client to connect to the server using the credentials. For example I am using the DBeaver community edition as a client to check the details
+test the connectivity from you IDE to see if you can connect using the "redhat" user
+
+
 
