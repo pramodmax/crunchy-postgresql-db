@@ -1,14 +1,18 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  namespace: team1
+  # namespace: team1
+  namespace: team1-test
   name: pg-db-primary
   labels:
     event: team19hackathon2021
 spec:
   port: 5432
+# Check  the pg-db-primary-pguser-redhat Secret
   users:
     - name: redhat
+      databases:
+        - hackathon2021db
   # standby:
   #   enabled: true
   #   repoName: repo1
